@@ -69,16 +69,15 @@ require(["jquery"], function() {
                                     if (new_tab || e.isDefaultPrevented) {
                                         return;
                                     } else {
-                                        window.location = url;
+                                        e.preventDefault();
+                                        // time delay for window location change
+                                        setTimeout(function() {
+                                            return window.location = url;
+                                        }, 300);
                                     }
                                 }
-                                // prevention before opening in a new tab
-                                if (!new_tab) {
-                                    e.preventDefault();
-                                    setTimeout(callback, 300);
-                                }
-                                // default mixpanel tracking method
-                                mixpanel.track(event_name, properties, callback);
+                                // default mixpanel tracking method with link callback
+                                mixpanel.track(event_name, properties, callback());
                             };
                             // -----------------------------------------------------
                             // tracking call function depd on target type
