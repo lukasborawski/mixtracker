@@ -13,6 +13,8 @@ require(["jquery"], function() {
         $(document).on({
             // document click events
             click: function(e) {
+                // get event object
+                var $e = $(e.target);
                 // set elements for not tracking
                 var notTrack = {
                     inputs: [
@@ -20,7 +22,7 @@ require(["jquery"], function() {
                     ]
                 };
                 // get elements to track
-                var t = $(e.target).not(notTrack.inputs[0]),
+                var  t = $e.not(notTrack.inputs[0]),
                     _t = t.parents('[data-mixpanel]');
                 // checking referrer
                 if (typeof t.data('mixpanel') !== 'undefined' || typeof _t.data('mixpanel') !== 'undefined') {
@@ -64,10 +66,11 @@ require(["jquery"], function() {
                                 var url = selector.prop("href");
                                 // direct url callback
                                 function callback() {
-                                    if (new_tab) {
+                                    if (new_tab || e.isDefaultPrevented) {
                                         return;
+                                    } else {
+                                        window.location = url;
                                     }
-                                    window.location = url;
                                 }
                                 // prevention before opening in a new tab
                                 if (!new_tab) {
