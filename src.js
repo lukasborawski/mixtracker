@@ -24,28 +24,29 @@ require(["jquery"], function() {
                 // get elements to track
                 var  t = $e.not(notTrack.inputs[0]),
                     _t = t.parents('[data-mixpanel]');
-                // checking referrer
+                // checking referrer data attribute bool
                 if (typeof t.data('mixpanel') !== 'undefined' || typeof _t.data('mixpanel') !== 'undefined') {
                     // set operator
                     var $t;
-                    // get target selector track data
+                    // get target selector data attribute
                     var $t_data_node = t.data('mixpanel');
                     // checking target selector
-                    /* jshint ignore:start */
+                    /* jshint ignore:start // notation added to avoid jshint error */
                     typeof $t_data_node !== 'undefined' ? $t = t : $t = _t;
                     /* jshint ignore:end */
-                    // get tag name for links tracking
+                    // get object tag name for links tracking
                     var _tag = $t.prop("tagName").toLowerCase();
-                    // get event data content
+                    // get target selector proper data attribute
                     var $event = $t.data('mixpanel');
                     // event structure separation
                     var $event_name = $event.split(":")[0].replace(/\_/g, ' '),
                         $event_attr = $event.split(":")[1],
                         $event_dplct = $event.split(":")[2];
-                    // tracking local methods
+                    // local tracking methods
                     var mixpanelTrack = {
+                        // 01. tracking straight method
                         straight : function($method) {
-                            // event attribute
+                            // set event attribute
                             var attr = {
                                 Attribute: $event_attr
                             };
@@ -56,13 +57,13 @@ require(["jquery"], function() {
                             // set special method for links tracking
                             // -----------------------------------------------------
                             mixpanel.track_links = function(parent, selector, event_name, properties) {
-                                // set event elements
+                                // set method structure
                                 properties = properties || {};
                                 parent = parent || document.body;
                                 parent = $(parent);
-                                // get target destination
+                                // get new tab target destination
                                 var new_tab = selector.which === 2 || selector.metaKey || selector.target === '_blank';
-                                // get target url
+                                // get target url property
                                 var url = selector.prop("href");
                                 // direct url callback
                                 function callback() {
@@ -80,7 +81,7 @@ require(["jquery"], function() {
                                 mixpanel.track(event_name, properties, callback());
                             };
                             // -----------------------------------------------------
-                            // tracking call function depd on target type
+                            // tracking function depd on event object type
                             var mixpanelTrackCall = function() {
                                 /* jshint ignore:start */
                                 return $method === "links" ?
@@ -88,21 +89,22 @@ require(["jquery"], function() {
                                     mixpanel.track($event_name, attr);
                                 /* jshint ignore:end */
                             }
-                            // event duplication
+                            // set number of event replication variable
                             var dplct;
-                            // set event duplication source
+                            // check number of event replication bool
                             /* jshint ignore:start */
                             typeof $event_dplct === 'undefined' ? dplct = false : dplct = true;
-                            // set event dupliaction variable
+                            // get number of event replication source
                             dplct === true ? $event_dplct = $event.split(":")[2] : $event_dplct = $event.split(":")[1];
                             /* jshint ignore:end */
-                            // track event depd on duplication property
+                            // track event depd on event replication type/number
                             if ($event_dplct === "track_once") {
-                                // set local storage object for event duplication depd
+                                // set local storage object
+                                // browser local storage availability check
                                 if (localStorage) {
                                     // get local storage event note
                                     var event = localStorage.getItem($event_name);
-                                    // fire up tracking function depd on local storage object exist
+                                    // fire up tracking function once
                                     if (event === null) {
                                         mixpanelTrackCall();
                                         localStorage.setItem($event_name, "Mix Panel");
@@ -110,16 +112,17 @@ require(["jquery"], function() {
                                         return false;
                                     }
                                 } else {
-                                    console.log('Local Storage is not available. The single event has not been saved.');
-                                    // tranck once event crash
+                                    console.log('Error: Local Storage is not available. The single event has not been saved.');
+                                    // event storing crash
                                     return false;
                                 }
                             } else if ($event_dplct === "track_always") {
+                                // fire up tracking function always
                                 mixpanelTrackCall();
                             }
                         }
                     };
-                    // event segments proper setup
+                    // event segments proper setup check
                     if (typeof $event_attr !== "undefined" || (typeof $event_attr !== "undefined" && typeof $event_dplct !== "undefined")) {
                         // sending an events to Mixpanel
                         switch (true) {
@@ -132,7 +135,7 @@ require(["jquery"], function() {
                                 break;
                         }
                     } else {
-                        console.log('Mixpanel data attribute have bad structure.');
+                        console.log('Error: Mixpanel data attribute have bad structure.');
                         // app crash
                         return false;
                     }
