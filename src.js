@@ -72,7 +72,7 @@ require(["jquery"], function() {
                                         e.preventDefault();
                                         // time delay for window location change
                                         setTimeout(function() {
-                                            return window.location = url;
+                                            window.location = url;
                                         }, 300);
                                     }
                                 }
