@@ -13,7 +13,7 @@ require(["jquery"], function() {
         $(document).on({
             // document click events
             click: function(e) {
-                // get event object
+                // set event target
                 var $e = $(e.target);
                 // set elements for not tracking
                 var notTrack = {
@@ -21,7 +21,7 @@ require(["jquery"], function() {
                         'input[type="hidden"], input[type="radio"]'
                     ]
                 };
-                // get elements to track
+                // define event caller
                 var  t = $e.not(notTrack.inputs[0]),
                     _t = t.parents('[data-mixpanel]');
                 // checking referrer data attribute bool
