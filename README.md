@@ -1,5 +1,5 @@
 # Mixpanel events tracker
-Simple jQuery plugin for tracking Mixpanel events. Most current version: [0.1](https://github.com/lukasborawski/mixtracker/tree/version/0.1 "mixtracker") / develop branch.
+Simple jQuery plugin for tracking Mixpanel events. Most current version: ~~[0.1](https://github.com/lukasborawski/mixtracker/tree/version/0.1 "mixtracker") / develop branch.~~
 
 ---
 ### What is Mixpanel?
